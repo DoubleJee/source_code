@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<bean id="user1" class="reflect.User">
+		<property name="id" value="1"></property>
+		<property name="name" value="世界之巅"></property>
+	</bean>
+	<bean id="user2" class="reflect.User">
+		<property name="id" value="2"></property>
+		<property name="name" value="宇宙全能者"></property>
+	</bean>
+
+</beans>   
