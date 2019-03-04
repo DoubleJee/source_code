@@ -38,4 +38,10 @@ public class User {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    private Integer add(Integer num1,Integer num2){
+        Integer sum = num1 + num2;
+        System.out.println(sum);
+        return sum;
+    }
 }
