@@ -7,18 +7,23 @@ import org.dom4j.io.SAXReader;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class ClassPathXmlApplicationContext {
+public class BeanClassPathXmlApplicationContext {
 
-    private static String PATH;
     private Document xmlDocument;
     private static final String ID = "id";
     private static final String CLASS = "class";
     private static final String NAME = "name";
     private static final String VALUE = "value";
+    private static volatile Map<String, Object> map = new ConcurrentHashMap<>();
 
-    public ClassPathXmlApplicationContext(String path) {
-        this.PATH = path;
+    public BeanClassPathXmlApplicationContext(String path) {
+        initBean(path);
+    }
+
+    private void initBean(String path) {
         SAXReader saxReader = new SAXReader();
         //解析xml文件
         try {
@@ -26,22 +31,13 @@ public class ClassPathXmlApplicationContext {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-    }
-
-    public Object getBean(String beanId) {
-        if (beanId == null || beanId.equals("") || xmlDocument == null) {
-            return null;
-        }
         Element rootElement = xmlDocument.getRootElement();
         //获取根节点下所有bean节点
         List<Element> elements = rootElement.elements();
         try {
             for (Element element : elements) {
-                String id = element.attributeValue(ID);
-                if (!id.equals(beanId)) {
-                    continue;
-                }
-                //获取正确对应bean节点的class值
+                String beanId = element.attributeValue(ID);
+                //获取bean节点的class值
                 String classValue = element.attributeValue(CLASS);
                 //获取class对象
                 Class<?> aClass = Class.forName(classValue);
@@ -64,8 +60,7 @@ public class ClassPathXmlApplicationContext {
                     if (nameField.getType().equals(String.class))
                         nameField.set(bean, value);
                 }
-                //返回反射机制对象
-                return bean;
+                map.put(beanId, bean);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -76,6 +71,9 @@ public class ClassPathXmlApplicationContext {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-        return null;
+    }
+
+    public Object getBean(String beanId) {
+        return map.get(beanId);
     }
 }

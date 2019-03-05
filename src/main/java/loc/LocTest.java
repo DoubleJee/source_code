@@ -9,5 +9,9 @@ public class LocTest {
         User user2 = (User) classPathXmlApplicationContext.getBean("user2");
         System.out.println(user1);
         System.out.println(user2);
+
+        BeanClassPathXmlApplicationContext beanClassPathXmlApplicationContext = new BeanClassPathXmlApplicationContext("applicationContext.xml");
+        User newUser = (User) beanClassPathXmlApplicationContext.getBean("user1");
+        System.out.println(newUser);
     }
 }
