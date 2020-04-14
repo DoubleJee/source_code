@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 //在此配置类把所有范围包内的bean，扫描并加入进来
 @ComponentScan(value = "use.annotation",includeFilters = {@ComponentScan.Filter(classes = {Service.class, Repository.class})},useDefaultFilters = false)
 
-//等同于Bean，只不过bean id是导入类的全限定类名
-@Import(UserEntity.class)
+//等同于Bean，只不过bean id是要导入类的全限定类名
+@Import({UserEntity.class,SimpleImportSelector.class})
 @EnableSuperPower
 public class TestMainConfig {
 
