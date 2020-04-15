@@ -3,8 +3,10 @@ package use.annotation.main;
 import use.annotation.config.EnableSuperPower;
 import use.annotation.config.SuperPowerConfig;
 import use.annotation.config.TestMainConfig;
+import use.annotation.entity.SubEntity;
 import use.annotation.entity.UserEntity;
 import use.annotation.mapper.UserMapper;
+import use.annotation.service.CommonService;
 import use.annotation.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -37,6 +39,16 @@ public class TestMain {
 
         Long powerLevel = annotationConfigApplicationContext.getBean("powerLevel", Long.class);
         System.out.println(powerLevel);
+
+        SubEntity importBeanSubEntity = annotationConfigApplicationContext.getBean("importBeanSubEntity", SubEntity.class);
+        System.out.println(importBeanSubEntity);
+
+
+        UserEntity userEntityFactoryBean= annotationConfigApplicationContext.getBean("use.annotation.config.SimpleFactoryBean", UserEntity.class);
+        System.out.println(userEntityFactoryBean);
+
+        CommonService commonService = annotationConfigApplicationContext.getBean(CommonService.class);
+        System.out.println(commonService);
 
 
     }
