@@ -50,6 +50,8 @@ public class TestMain {
         CommonService commonService = annotationConfigApplicationContext.getBean(CommonService.class);
         System.out.println(commonService);
 
+        annotationConfigApplicationContext.close();
+
 
     }
 }

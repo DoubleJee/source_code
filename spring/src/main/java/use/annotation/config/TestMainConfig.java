@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 @ComponentScan(value = "use.annotation",includeFilters = {@ComponentScan.Filter(classes = {Component.class,Service.class, Repository.class})},useDefaultFilters = false)
 
 //等同于Bean，只不过bean id是要导入类的全限定类名
-@Import({UserEntity.class,SimpleImportSelector.class,SimpleImportBeanDefinitionRegistrar.class,SimpleFactoryBean.class})
+@Import({UserEntity.class,SimpleImportSelector.class,SimpleImportBeanDefinitionRegistrar.class,SimpleFactoryBean.class,MyApplicationContextAware.class})
 @EnableSuperPower
 public class TestMainConfig {
 
     //等同于xml里的bean标签            PS：适合外部jar包，因为你没办法在别人jar上加入Component注解
-    @Bean
+    @Bean(initMethod = "initMethod",destroyMethod = "destroyMethod")
 
     //Conditional接口 定义了匹配规则行为，由具体来实现，满足此匹配规则的注册bean
     @Conditional(SystemCondition.class)

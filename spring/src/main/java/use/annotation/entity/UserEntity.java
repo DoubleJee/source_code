@@ -20,6 +20,14 @@ public class UserEntity {
         this.name = name;
     }
 
+    private void initMethod(){
+        System.out.println("bean初始化");
+    }
+
+    private void destroyMethod(){
+        System.out.println("bean销毁");
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
