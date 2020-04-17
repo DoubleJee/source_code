@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 import use.annotation.entity.SubEntity;
 //此接口定义 提供了手动注册bean的能力，提供方法去自定义注册bean，方法入参有bean注册器，子类实现去自定义加载注册bean
+//同样适合复杂bean的创建，实现类可以创建bean的时候完成种种细节，去自定义创建bean
 public class SimpleImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 
     //beanDefinition 是spring对bean的描述 每个定义的bean 也就是beanDefinition

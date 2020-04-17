@@ -1,4 +1,4 @@
-package use.annotation;
+package use;
 
 public class Core {
 
