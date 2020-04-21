@@ -66,15 +66,17 @@ public class Core {
      * 1. @EnableAspectJAutoProxy 开启AOP
      * 2. @Import(AspectJAutoProxyRegistrar.class)
      * 3. AspectJAutoProxyRegistrar实现了ImportBeanDefinitionRegistrar接口，手动注册 切面类
-     * 4. 手动注册AnnotationAwareAspectJAutoProxyCreator到ioc容器中，
-     * beanId：org.springframework.aop.config.internalAutoProxyCreator
+     * 4. 手动注册AnnotationAwareAspectJAutoProxyCreator到ioc容器中，beanId：org.springframework.aop.config.internalAutoProxyCreator
      *
-     * 5.AnnotationAwareAspectJAutoProxyCreator 继承的 AbstractAutoProxyCreator 实现了BeanPostProcessor
-     * AbstractAutoProxyCreator的postProcessAfterInitialization的后置处理方法，创建代理对象
+     * 5. AnnotationAwareAspectJAutoProxyCreator 继承的 AbstractAutoProxyCreator 实现了BeanPostProcessor
+     * AbstractAutoProxyCreator的postProcessAfterInitialization的后置处理方法
      *
-     * 6.如果被代理的类实现了接口，使用JDK动态代理，否则使用CGLIB动态代理
-     *
-     *
+     * 6. postProcessAfterInitialization()，bean初始化执行后置处理方法
+     * 7. wrapIfNecessary()，判断bean是否在切入点范围内，如果是创建代理对象
+     * 8. createAopProxy()，判断如果被代理的类是否实现了接口，使用JDK动态代理，否则使用CGLIB动态代理
+     * 9. 创建JdkDynamicAopProxy 或者 ObjenesisCglibAopProxy
+     * 10. 当调用目标方法的时候就会执行到 JdkDynamicAopProxy的invoke()方法
+     * 11. 底层使用集合存放AOP通知，使用责任链模式设计模式进行依次循环调用。
      *
      */
 

@@ -1,9 +1,7 @@
 package use.aop.config;
 
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,5 +23,12 @@ public class LogAop {
         System.out.println("后置通知");
     }
 
+    @Around("logAop()")
+    public void doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("哈哈环绕前");
+        joinPoint.proceed();
+        System.out.println("哈哈环绕后");
+
+    }
 
 }
