@@ -80,5 +80,26 @@ public class Core {
      *
      */
 
+    /**
+     * Spring bean 循环依赖
+     *
+     * 1. getBean() -> doGetBean() 获取对象
+     * 2. getSingleton(beanName) 判断是否有缓存对象，如果有直接返回。
+     * （从一级缓存拿，找不到从二级缓存拿，找不到从三级缓存拿到单例工厂，
+     * 工厂创建是执行过bean增强处理器的对象，可能是AOP代理对象，拿到会放入二级缓存，并从三级缓存中移除）
+     *
+     * 3. 拿不到调用getSingleton(String beanName, ObjectFactory<?> singletonFactory)
+     * 4. beforeSingletonCreation()，将bean放入创建中bean集合中，标识此bean创建中
+     * 5. createBean() -> doCreateBean() -> createBeanInstance()  创建（不完整bean）实例，即没有设置属性的bean
+     *
+     * 6. addSingletonFactory() 将bean执行BeanPostProcessor (可能返回的是代理对象)，
+     * 创建处理之后的bean的工厂，并把工厂放入三级缓存，也就是将不完整对象放入三级缓存，进行提早暴露
+     *
+     * 7. populateBean() 给对象属性赋值，可能依赖其他对象，循环 1 2 3 4 5 6步。（本对象可能被其他对象依赖引用，其他对象可能会从三级缓存拿到，并放入二级缓存，或者接着存储在三级缓存）
+     * 8. 设置完值再之后，会判断自己是否提早暴露，如果是getSingleton()，从一级或二级或三级缓存中拿到被增强处理过的bean
+     * 8. afterSingletonCreation()，将bean移除创建中bean集合中
+     * 9. addSingleton() 将对象放入一级缓存中，在二级、三级中移除对象
+     *
+     */
 
 }
