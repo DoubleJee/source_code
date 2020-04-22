@@ -76,7 +76,7 @@ public class Core {
      * 8. createAopProxy()，判断如果被代理的类是否实现了接口，使用JDK动态代理，否则使用CGLIB动态代理
      * 9. 创建JdkDynamicAopProxy 或者 ObjenesisCglibAopProxy
      * 10. 当调用目标方法的时候就会执行到 JdkDynamicAopProxy的invoke()方法
-     * 11. 底层使用集合存放AOP通知，使用责任链模式设计模式进行依次循环调用。
+     * 11. invoke() 底层使用集合存放AOP通知，使用责任链模式进行递归链式调用。
      *
      */
 

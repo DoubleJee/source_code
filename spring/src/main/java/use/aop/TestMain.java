@@ -19,11 +19,11 @@ public class TestMain {
 
     public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-//        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(TestMainConfig.class);
-//        UserService userService = applicationContext.getBean("userService", UserService.class);
-//        userService.get();
-//        ResourceService resourceService = applicationContext.getBean("resourceServiceImpl", ResourceService.class);
-//        resourceService.getResource();
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(TestMainConfig.class);
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        userService.get();
+        ResourceService resourceService = applicationContext.getBean("resourceServiceImpl", ResourceService.class);
+        resourceService.getResource();
 
 
 
