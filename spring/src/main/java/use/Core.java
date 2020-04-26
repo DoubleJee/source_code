@@ -72,11 +72,11 @@ public class Core {
      * AbstractAutoProxyCreator的postProcessAfterInitialization的后置处理方法
      *
      * 6. postProcessAfterInitialization()，bean初始化执行后置处理方法
-     * 7. wrapIfNecessary()，判断bean是否在切入点范围内，如果是创建代理对象
+     * 7. wrapIfNecessary()，判断bean是否在切入点范围内，如果是创建代理对象，绑定相应的通知。
      * 8. createAopProxy()，判断如果被代理的类是否实现了接口，使用JDK动态代理，否则使用CGLIB动态代理
      * 9. 创建JdkDynamicAopProxy 或者 ObjenesisCglibAopProxy
      * 10. 当调用目标方法的时候就会执行到 JdkDynamicAopProxy的invoke()方法
-     * 11. invoke() 底层使用集合存放AOP通知，使用责任链模式进行递归链式调用。
+     * 11. invoke() 底层使用集合存放AOP通知，获取绑定的相应AOP通知，使用责任链模式进行递归链式调用。
      *
      */
 
