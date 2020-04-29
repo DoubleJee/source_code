@@ -1,6 +1,6 @@
-package config;
+package servlet.config;
 
-import config.handles_type.MyHandlerType;
+import servlet.config.handles_type.MyHandlerType;
 import servlet.LoginHttpServlet;
 
 import javax.servlet.ServletContainerInitializer;
@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.servlet.annotation.HandlesTypes;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 //此接口定义了，在Servlet容器初始化的时候要执行的方法
@@ -19,11 +20,18 @@ public class MyServletContainerInitializer implements ServletContainerInitialize
     //可以在servlet容器启动的时候加载一些第三方相关依赖初始化工作，在扩展的启动方法里手动添加servlet、监听器、过滤器等
     @Override
     public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
-        c.forEach(System.out::println);
+        c.forEach(nc -> {
+            try {
+                MyHandlerType myHandlerType = (MyHandlerType) nc.getDeclaredConstructor().newInstance();
+                myHandlerType.handle();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         //手动添加Servlet
         ServletRegistration.Dynamic loginHttpServlet = ctx.addServlet("loginHttpServlet", new LoginHttpServlet());
-        loginHttpServlet.addMapping("/login");
+        loginHttpServlet.addMapping("/my_servlet/login");
     }
 
 
