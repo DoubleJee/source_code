@@ -1,1 +1,2 @@
 servlet.config.MyServletContainerInitializer
+diy.config.SpringServletContainerInitializer
