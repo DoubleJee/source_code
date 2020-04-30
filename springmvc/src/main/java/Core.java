@@ -34,4 +34,20 @@ public class Core {
      */
 
 
+    /**
+     * SpringMVC 调用过程
+     *
+     * 1.DispatcherServlet 继承 FrameworkServlet 继承 HttpServlet
+     * 2.HttpServlet的Service()方法 -> FrameworkServlet的doXXX()方法（可能是doGet doPost等）-> DispatcherServlet的doService()方法
+     * 3.doDispatch()方法
+     * 3.getHandler() 根据url找请求方法，如果找不到则返回404
+     * 4.HandlerMethod是请求的具体方法，HandlerMapping存放url路径与请求方法映射
+     * 5.getHandlerAdapter() 获取处理器的适配器 RequestMappingHandlerAdapter
+     * 6.applyPreHandle() 执行目标拦截器前置方法 如果返回true继续往下走否则断开
+     * 7.handle()执行实际请求目标方法返回ModelAndView
+     * 8.applyPostHandle() 执行目标拦截器后置方法
+     * 9.processDispatchResult() 渲染视图，（返回给客户端页面或者JSON数据）
+     * 10.triggerAfterCompletion() 执行目标拦截器渲染完视图后置方法
+     */
+
 }

@@ -24,13 +24,13 @@ public class TokenInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    // 请求方法拦截后置操作
+    // 请求方法拦截后置操作，请求方法执行完毕之后执行，没有去渲染页面
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         System.out.println("<<<<<<<目标方法后置操作>>>>>>>>>");
     }
 
-    // 视图渲染完后置操作
+    // 渲染视图完（返回给客户端数据）后置操作
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         System.out.println("<<<<<<<完成视图后置操作>>>>>>>>>");
