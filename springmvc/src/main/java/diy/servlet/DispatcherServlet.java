@@ -45,6 +45,7 @@ public class DispatcherServlet extends FrameworkServlet {
         HandlerExecutionChain handler = getHandler(req);
         if (handler == null) {
             noHandlerFound(req, resp);
+            return;
         }
 
         // 2.调用handler
