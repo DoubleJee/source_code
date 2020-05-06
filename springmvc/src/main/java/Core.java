@@ -47,12 +47,18 @@ public class Core {
      * 3.doDispatch()方法
      * 3.getHandler() 根据url找请求方法，如果找不到则返回404
      * 4.HandlerMethod是请求的具体方法，HandlerMapping存放url路径与请求方法映射
-     * 5.getHandlerAdapter() 获取处理器的适配器 RequestMappingHandlerAdapter
+     * 5.getHandlerAdapter() 获取支持此处理器的适配器 RequestMappingHandlerAdapter
      * 6.applyPreHandle() 执行目标拦截器前置方法 如果返回true继续往下走否则断开
-     * 7.handle()执行实际请求目标方法返回ModelAndView
+     * 7.handle() 适配器执行实际请求目标方法返回ModelAndView
      * 8.applyPostHandle() 执行目标拦截器后置方法
      * 9.processDispatchResult() 渲染视图，（返回给客户端页面或者JSON数据）
      * 10.triggerAfterCompletion() 执行目标拦截器渲染完视图后置方法
+     */
+
+    /**
+     *
+     * HandlerMapping有多个实现类型，RequestMapping、SimpleController、HttpRequestHandler，收集了不同类型的handler（目标方法），handler的调用方式不同
+     * SpringMVC的handle适配器，可以根据不同的handle类型去适配执行。
      */
 
 }

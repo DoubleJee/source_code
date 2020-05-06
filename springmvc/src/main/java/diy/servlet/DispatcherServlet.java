@@ -1,5 +1,7 @@
 package diy.servlet;
 
+import diy.adapter.HandlerAdapter;
+import diy.adapter.RequestMappingHandlerAdapter;
 import diy.config.DiySpringMVCConfig;
 import diy.handler.HandlerMethod;
 import diy.handler.RequestMappingHandlerMapping;
@@ -9,16 +11,24 @@ import diy.view.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DispatcherServlet extends FrameworkServlet {
 
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
+    private List<HandlerAdapter> handlerAdapters;
+
     private String servletPrefix;
 
     public DispatcherServlet(String servletPrefix) {
         this.servletPrefix = servletPrefix;
+        //handler映射器
         this.requestMappingHandlerMapping = new RequestMappingHandlerMapping();
+        //适配器
+        this.handlerAdapters = new ArrayList<>();
+        handlerAdapters.add(new RequestMappingHandlerAdapter());
     }
 
     @Override
@@ -41,17 +51,20 @@ public class DispatcherServlet extends FrameworkServlet {
 
     protected void doDispatch(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
-        // 1.获取handler
+        // 1.获取handler（包装类）
         HandlerExecutionChain handler = getHandler(req);
         if (handler == null) {
             noHandlerFound(req, resp);
             return;
         }
 
-        // 2.调用handler
-        ModelAndView modelAndView = handler.handle(req, resp);
+        // 2.获取Handler适配器
+        HandlerAdapter handlerAdapter = getHandlerAdapter(handler.getHandler());
 
-        // 3.渲染视图
+        // 3.适配调用handler
+        ModelAndView modelAndView = handlerAdapter.handle(req,resp,handler.getHandler());
+
+        // 4.渲染视图
         render(modelAndView, req, resp);
     }
 
@@ -62,6 +75,15 @@ public class DispatcherServlet extends FrameworkServlet {
             return null;
         }
         return new HandlerExecutionChain(handler);
+    }
+
+    protected HandlerAdapter getHandlerAdapter(Object handler) throws ServletException {
+        for (HandlerAdapter handlerAdapter : handlerAdapters){
+            if (handlerAdapter.supports(handler)){
+                return handlerAdapter;
+            }
+        }
+        return null;
     }
 
     protected void noHandlerFound(HttpServletRequest request, HttpServletResponse response) throws Exception {
