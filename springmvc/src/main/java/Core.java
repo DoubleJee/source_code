@@ -28,9 +28,14 @@ public class Core {
      *
      * 3.此类有注解@HandlesTypes(WebApplicationInitializer.class)，启动方法onStartup()能拿到所有实现WebApplicationInitializer的类
      *
-     * 4.SpringServletContainerInitializer的onStartup()调用所有WebApplicationInitializer子类的onStartup()，进行初始化
+     * 4.SpringServletContainerInitializer的onStartup()调用所有WebApplicationInitializer子类的onStartup()，进行初始化注册DispatchServlet
      *
+     * 5.DispatchServlet继承自 FrameworkServlet -> HttpServletBean -> HttpServlet
      *
+     * 6.HttpServletBean的init()方法 -> initServletBean() -> FrameworkServlet的initServletBean()方法 -> onRefresh()
+     * -> DispatcherServlet的onRefresh()方法 -> initStrategies()
+     *
+     * 7.initStrategies() 初始化DispatcherServlet的所有资源，（handler映射器、handler适配器、视图解析器等）
      */
 
 
