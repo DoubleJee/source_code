@@ -1,4 +1,4 @@
-package embedded.tomcat;
+package embed.tomcat;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
