@@ -1,0 +1,2 @@
+#标明要进行自动配置的类
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=config.TokenGeneratorAutoConfig

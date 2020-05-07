@@ -2,4 +2,5 @@ rootProject.name = 'source_code'
 include 'spring'
 include 'springmvc'
 include 'springboot'
+include 'token-generator-spring-boot-starter'
 
