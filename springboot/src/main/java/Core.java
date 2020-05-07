@@ -26,7 +26,8 @@ public class Core {
      * SpringBootApplication注解包装了@SpringBootConfiguration @EnableAutoConfiguration @ComponentScan
      *
      * SpringBootConfiguration注解包装了@Configuration
-     * EnableAutoConfiguration注解使用了Spring的导入选择器实现了自动配置
+     * EnableAutoConfiguration注解使用了Spring的导入选择器实现了自动配置，
+     * 拿到/META-INF/spring.factories文件里的org.springframework.boot.autoconfigure.EnableAutoConfiguration映射的类名称集合，放入导入选择器
      *
      *
      * org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
