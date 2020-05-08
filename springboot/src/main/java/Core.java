@@ -40,14 +40,17 @@ public class Core {
     /**
      * SpringBoot启动流程：
      * 1.创建SpringApplication对象
-     * 2.deduceWebApplicationType() 推断WebApplicationType。
-     * WebApplicationType NONE：不是WEB应用，不会嵌入WEB服务器。SERVLET：基于servlet的WEB应用，嵌入Servlet WEB服务器。REACTIVE：基于响应式的WEB应用，嵌入响应式WEB服务器
+     * 2.deduceWebApplicationType() 推断应用类型WebApplicationType，根据当前classpath下有没有加载相应的类来推断
+     * WebApplicationType NONE：不会嵌入WEB服务器。SERVLET：基于servlet的WEB应用，嵌入Servlet WEB服务器。REACTIVE：基于响应式的WEB应用，嵌入响应式WEB服务器
      * 3.setInitializers() 设置初始化器集合 -> getSpringFactoriesInstances(ApplicationContextInitializer.class) 读取所有依赖Jar里的/META-INF/spring.factories文件配置的指定类集合（ApplicationContextInitializer类对应的映射类），并实例化它们然后返回。
      * 4.setListeners() 设置监听者集合 -> getSpringFactoriesInstances(ApplicationListener.class) 同上，得到监听者对象集合，并设置到监听者集合
      * 5.deduceMainApplicationClass() 推断启动主类
      *
      *
      * 6.调用run()方法
-     *
+     * 7.new StopWatch().start()，记录项目的启动时间
+     * 8.getRunListeners() 读取spring.factories，获取启动监听器实例集合，
+     * 9.listeners.starting() 循环调用启动监听器的starting方法
+     * 10.prepareEnvironment() 循环调用启动监听器的environmentPrepared环境准备方法，（读取配置文件加载到SpringBoot配置源中，application.yml、xml、yaml、properties）
      */
 }

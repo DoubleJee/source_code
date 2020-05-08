@@ -1,9 +1,11 @@
 package main;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.io.PrintStream;
@@ -29,5 +31,14 @@ public class Main {
         for (String beanDefinitionName : beanDefinitionNames) {
             System.out.println("beanName：" + beanDefinitionName);
         }
+    }
+
+    @Value("${info.text}")
+    private String text;
+
+    @Bean
+    public String testBean(){
+        System.out.println(text);
+        return null;
     }
 }
