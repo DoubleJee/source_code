@@ -18,7 +18,7 @@ public class Core {
      *
      * 3.检查是否Aware依赖类型（BeanNameAware，BeanFactoryAware） 执行对应的Aware方法
      *
-     * 4.bean自定义初始化方法前置处理器 （某处理器实现类，检查是否ApplicationContextAware依赖类型，执行对应的Aware方法，可以让bean得到ApplicationContext）
+     * 4.bean自定义初始化方法前置处理器 （某BeanPostProcessor实现类，检查是否ApplicationContextAware依赖类型，执行对应的Aware方法，可以让bean得到ApplicationContext）
      *
      * 5.执行bean自定义初始化init方法
      *
