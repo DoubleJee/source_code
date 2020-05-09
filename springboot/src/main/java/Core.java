@@ -26,15 +26,12 @@ public class Core {
      * SpringBootApplication注解包装了@SpringBootConfiguration @EnableAutoConfiguration @ComponentScan
      *
      * SpringBootConfiguration注解包装了@Configuration
+     *
      * EnableAutoConfiguration注解使用了Spring的导入选择器实现了自动配置，
-     * 拿到/META-INF/spring.factories文件里的org.springframework.boot.autoconfigure.EnableAutoConfiguration映射的类名称集合，放入导入选择器
+     * 拿到/META-INF/spring.factories文件里的org.springframework.boot.autoconfigure.EnableAutoConfiguration映射的类名称集合，放入导入选择器，如下两个自动配置类：
+     * org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration 帮我们自动配置创建内置Tomcat
+     * org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration 自动配置创建DispatcherServlet
      *
-     *
-     * org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
-     * 帮我们创建内置Tomcat
-     *
-     * org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
-     * 自动配置创建DispatcherServlet
      */
 
     /**
@@ -50,7 +47,13 @@ public class Core {
      * 6.调用run()方法
      * 7.new StopWatch().start()，记录项目的启动时间
      * 8.getRunListeners() 读取spring.factories，获取启动监听器实例集合，
-     * 9.listeners.starting() 循环调用启动监听器的starting方法
-     * 10.prepareEnvironment() 循环调用启动监听器的environmentPrepared环境准备方法，（读取配置文件加载到SpringBoot配置源中，application.yml、xml、yaml、properties）
+     * 9.listeners.starting() 循环调用（通知）启动监听器的starting启动中方法
+     * 10.prepareEnvironment() 循环调用（通知）启动监听器的environmentPrepared环境准备方法，（读取配置文件加载到SpringBoot配置源中，application.yml、xml、yaml、properties）
+     * 11.printBanner() 打印Banner
+     * 12.createApplicationContext() 根据WebApplicationType，创建对应的SpringBoot核心上下文
+     * 13.refreshContext() 刷新初始化上下文，初始化所有的Bean（创建内嵌web服务器（Tomcat）、初始化SpringMVC）
+     * 14.started() 循环调用（通知）启动监听器的started启动成功方法
+     * 15.running() 循环调用（通知）启动监听器的running运行中方法
+     * 16.return context; 返回当前的SpringBoot上下文
      */
 }

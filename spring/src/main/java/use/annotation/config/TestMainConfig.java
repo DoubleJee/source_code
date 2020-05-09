@@ -6,7 +6,7 @@ import use.annotation.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-//等同于xml
+//等同于xml beans
 @Configuration
 //在此配置类把所有范围包内的bean，扫描并加入进来
 @ComponentScan(value = "use.annotation",includeFilters = {@ComponentScan.Filter(classes = {Component.class,Service.class, Repository.class})},useDefaultFilters = false)
