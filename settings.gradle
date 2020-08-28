@@ -3,4 +3,5 @@ include 'spring'
 include 'springmvc'
 include 'springboot'
 include 'token-generator-spring-boot-starter'
+include 'mybatis'
 
