@@ -24,8 +24,10 @@ public class TestMain {
         // 5.获取mapper对象，操作数据库
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         User user = userMapper.getUserById(1L);
+        sqlSession.commit();
         System.out.println(user);
-        User user2 = userMapper.getUserById(2L);
+        User user2 = sqlSession.selectOne("mapper.UserMapper.getUserById",1L);
+        sqlSession.commit();
         System.out.println(user2);
     }
 }

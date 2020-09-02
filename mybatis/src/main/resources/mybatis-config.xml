@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <settings>
+        <!-- sql日志配置，标准输出 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
     <!-- 环境配置 -->
     <environments default="development">
         <environment id="development">
@@ -18,8 +24,7 @@
     </environments>
     <!-- mapping文件路径配置 -->
     <mappers>
-<!--        <package name="mappers"/>-->
+       <!-- <package name="mappers"/>-->
         <mapper resource="mappers/UserMapper.xml"/>
     </mappers>
-
 </configuration>
