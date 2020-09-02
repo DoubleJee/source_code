@@ -15,7 +15,7 @@ public class Core {
      *
      * 6.XMLMapperBuilder.parse() 解析每个mapper文件字符流
      * 7.configurationElement() 解析配置mapper文件里声明的各个元素，有 解析mapper文件声明的每个sql语句，创建为MappedStatement对象，放入configuration的mappedStatements集合，解析mapper文件的cache声明，创建Cache对象，放入caches集合
-     * 8.bindMapperForNamespace() 解析mapper文件，找到mapper对应的接口类型并与MapperProxyFactory映射，然后注册到configuration的mapperRegistry，mapper文件资源路径放入configuration的loadedResource
+     * 8.bindMapperForNamespace() 解析mapper文件，找到mapper对应的接口类型并与MapperProxyFactory映射，然后注册到configuration的mapperRegistry（方便给Mapper做代理），mapper文件资源路径放入configuration的loadedResource
      *
      * 9.configuration对象装配完毕
      * 10.new DefaultSqlSessionFactory(config) 构建出SqlSession工厂对象
@@ -42,7 +42,7 @@ public class Core {
 
     /**
      * MyBatis Mapper创建过程：
-     * 1.SqlSession.getMapper() 通过configuration的mapperRegistry，检查Mapper接口是否已经登记注册过，并找到对应的MapperProxyFactory去创建MapperProxy代理类，提供对Mapper接口的代理执行
+     * 1.SqlSession.getMapper() 通过configuration的mapperRegistry，检查Mapper接口是否已经登记注册过，并找到对应的MapperProxyFactory去创建MapperProxy代理，提供对Mapper接口的代理执行
      * 2.MapperProxy代理Mapper接口的所有方法，Mapper接口的方法调用都会走MapperProxy.invoke()
      * 3.cachedMapperMethod() 根据Mapper接口方法，找到对应的MapperMethod对象，MapperMethod类是代表Mapper接口方法与XML里对应的sql语句标签信息
      * 4.execute() 根据MapperMethod的 sql类型，返回类型 选择对应的SqlSession方法，再根据MapperMethod的namespace+id作为参数，然后去执行，实际还是交给SqlSession去查询的
