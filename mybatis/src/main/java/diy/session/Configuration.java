@@ -2,6 +2,7 @@ package diy.session;
 
 
 import diy.proxy.MapperProxyFactory;
+import diy.statement.MapperStatement;
 import org.apache.ibatis.binding.BindingException;
 
 import java.util.HashMap;
@@ -16,8 +17,12 @@ public class Configuration {
     // Mapper包名
     private String mappersPackage;
 
-    // 注册的Mapper类
+    // 注册的Mapper类  方便查找与做代理
     private final Map<Class<?>, MapperProxyFactory<?>> knownMappers = new HashMap<>();
+
+    // 注册的Mapper类的所有SQL方法
+    private final Map<String, MapperStatement> mappedStatements = new HashMap<>();
+
 
     public Configuration() {
     }
@@ -53,6 +58,14 @@ public class Configuration {
             throw new BindingException("Type " + type + " is not known to the MapperRegistry.");
         }
         return mapperProxyFactory.newInstance(sqlSession);
+    }
+
+    public MapperStatement getMapperStatement(String statement) {
+        return mappedStatements.get(statement);
+    }
+
+    public void addMapperStatement(MapperStatement mapperStatement) {
+        mappedStatements.put(mapperStatement.getId(), mapperStatement);
     }
 
     @Override

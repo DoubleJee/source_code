@@ -41,6 +41,11 @@ public class Core {
      */
 
     /**
+     * MyBatis Executor执行器：真正负责对数据库执行sql，或从缓存里拿数据 （缓存查询和数据库操作的真正实现）
+     * 如果缓存拿不到，调用queryFromDatabase方法去通过JDBC查询数据库，中间会有PreparedStatementHandler对JDBC的预编译进行封装查询，DefaultResultSetHandler对JDBC返回的ResultSet结果集进行包装转换
+     */
+
+    /**
      * MyBatis Mapper创建过程：
      * 1.SqlSession.getMapper() 通过configuration的mapperRegistry，检查Mapper接口是否已经登记注册过，并找到对应的MapperProxyFactory去创建MapperProxy代理，提供对Mapper接口的代理执行
      * 2.MapperProxy代理Mapper接口的所有方法，Mapper接口的方法调用都会走MapperProxy.invoke()
@@ -55,15 +60,15 @@ public class Core {
 
     /**
      * MyBatis 二级缓存过程：
-     * 1.CachingExecutor.query() 执行器执行查询，传入key和sql语句、参数
-     * 2.ms.getCache() 根据sql语句获取mapper文件里声明的缓存，Cache对象
+     * 1.CachingExecutor.query() 执行器执行查询，传入key和sql语句、参数（MapperStatement对象）
+     * 2.ms.getCache() 根据sql语句获取mapper文件里声明的缓存，Cache对象，如果没有获取到Cache（没有配置二级缓存）或者该MapperStatement不使用缓存，则都不会去走二级缓存
      * 3.tcm.getObject() 通过缓存管理器，去此sql语句对应的Cache包装器里，获取key映射的值，有的话将结果返回，没有的话则交给委派去一级缓存拿 （Cache包装器会在首次调用的时候创建）
      * 4.tcm.putObject() 通过委派查询到结果后，放入此sql语句对应的Cache包装器的entriesToAddOnCommit容器，这个容器会存放数据，不会立马放入二级缓存（是个Map容器）
      * 5.tcm.commit() 缓存管理器提交所有的Cache包装器数据到二级缓存
      * 6.flushPendingEntries() Cache包装器将entriesToAddOnCommit容器里存放的数据全部放入到Cache里去 （调用Cache的putObject方法）
      * 7.reset() 清空Cache包装器entriesToAddOnCommit容器
      *
-     * 8.CachingExecutor.update() 执行器执行增修删，传入key和sql语句、参数
+     * 8.CachingExecutor.update() 执行器执行增修删，传入key和sql语句、参数（MapperStatement对象）
      * 9.flushCacheIfRequired() 通过缓存管理器，得到此sql语句对应的Cache包装器（第2步操作，得到对应的包装器）去设置clearOnCommit提交时清理属性，然后将entriesToAddOnCommit容器清理空
      * 等到下次执行tcm.commit()的时候，每个Cache包装器会检查自己的clearOnCommit属性，如果需要清理，Cache包装器最后会调用所包装的Cache的clear()方法
      *

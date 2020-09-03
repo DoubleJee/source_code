@@ -36,4 +36,12 @@ public final class StringUtil {
     public static String[] splitString(String str, String separator) {
         return StringUtils.splitByWholeSeparator(str, separator);
     }
+
+    public static String getStringByArray(Object[] array, String split) {
+        StringBuilder resultStrBuilder = new StringBuilder();
+        for (Object o : array) {
+            resultStrBuilder.append(o);
+        }
+        return resultStrBuilder.toString();
+    }
 }
